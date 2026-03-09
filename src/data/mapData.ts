@@ -33,8 +33,8 @@ export const tollGates: TollGate[] = [
     id: "G1-Cikis",
     name: "FENERTEPE G1 (ÇIKIŞ)",
     location: "Fenertepe (Çıkış)",
-    lat: 41.193500, // Bottom left relative to G1
-    lng: 28.822800,
+    lat: 41.194500, // Adjusted further north and slightly east to match the road branch
+    lng: 28.823600,
     status: "active",
     technicalId: "GS-001B-FNT",
     direction: "Çıkış",
