@@ -326,30 +326,85 @@ export const passagePoints: PassagePoint[] = [
   },
 ];
 
-// Helper to get highway corridor coordinates (connecting all points roughly west to east)
-export const highwayCorridorWest: [number, number][] = [
-  [28.81545, 41.0710], // İSTOÇ
-  [28.81386, 41.0792], // İkitelli
-  [28.81334, 41.0964], // Başakşehir Güney
-  [28.81487, 41.1076], // Başakşehir Kuzey
-  [28.80753, 41.1276], // Fenertepe S5
-  [28.82404, 41.1971], // G1 Fenertepe
-  [28.83195, 41.2106], // G2 Işıklar
-  [28.82103, 41.2380], // G13 Odayeri
-  [28.84693, 41.2429], // G3 Ağaçlı
+// Yavuz Sultan Selim Bridge Midpoint
+export const BRIDGE_COORD: [number, number] = [41.2024, 29.1114];
+
+// =============================================
+// TRUNK GEOMETRY (O-6 Otoyolu Ana Hattı)
+// These represent the main highway line, not the exits/branches
+// =============================================
+
+// High-resolution coordinates for O-6 European Side (Towards Bridge)
+export const trunkEurope: [number, number][] = [
+  [41.0707, 28.8155], // S1A İSTOÇ
+  [41.0750, 28.8145],
+  [41.0792, 28.8139], // S2A İkitelli
+  [41.0830, 28.8130],
+  [41.0880, 28.8125],
+  [41.0920, 28.8130],
+  [41.0960, 28.8135], // S3A Başakşehir Güney
+  [41.1020, 28.8145],
+  [41.1073, 28.8150], // S4A Başakşehir Kuzey
+  [41.1110, 28.8140],
+  [41.1150, 28.8120],
+  [41.1190, 28.8100],
+  [41.1275, 28.8078], // S5A Fenertepe
+  [41.1350, 28.8080],
+  [41.1450, 28.8100],
+  [41.1550, 28.8120],
+  [41.1650, 28.8140],
+  [41.1750, 28.8160],
+  [41.1850, 28.8190],
+  [41.1920, 28.8220],
+  [41.1971, 28.8240], // G1 Fenertepe Seviyesi Ana Yol
+  [41.2020, 28.8260],
+  [41.2060, 28.8290],
+  [41.2106, 28.8320], // G2 Işıklar Seviyesi Ana Yol (Yan yola girmez)
+  [41.2150, 28.8300],
+  [41.2200, 28.8280],
+  [41.2250, 28.8250],
+  [41.2320, 28.8220],
+  [41.2380, 28.8210], // G13 Odayeri Seviyesi Ana Yol (Yan yola girmez)
+  [41.2420, 28.8250],
+  [41.2440, 28.8300],
+  [41.2450, 28.8380],
+  [41.2440, 28.8440],
+  [41.2429, 28.8469], // G3 Ağaçlı Seviyesi Ana Yol (Yan yola girmez)
+  [41.2410, 28.8520],
+  [41.2400, 28.8600],
+  [41.2390, 28.8700],
+  [41.2380, 28.8800],
+  [41.2370, 28.8900],
+  [41.2360, 28.9000],
+  [41.2350, 28.9200],
+  [41.2350, 28.9500],
+  [41.2350, 28.9800],
+  [41.2350, 29.0000],
+  [41.2348, 29.0281], // G4 Uskumruköy Ana Yol
+  [41.2320, 29.0400],
+  [41.2280, 29.0500],
+  [41.2220, 29.0650],
+  [41.2150, 29.0850],
+  [41.2080, 29.1000],
+  [41.2024, 29.1114], // Köprü Girişi
 ];
 
-export const highwayCorridorEast: [number, number][] = [
-  [29.02811, 41.2348], // G4 Uskumruköy
-  [29.16690, 41.0520], // Çamlık S7
-  [29.19424, 41.0383], // Çekmeköy S6
-  [29.19625, 41.0234], // Sarıgazi S8
-  [29.20257, 41.1923], // G5 Riva
-  [29.25771, 41.0459], // G7 Reşadiye
-  [29.26726, 41.0305], // G8 Alemdağ
-  [29.26887, 41.0051], // G9 Paşaköy
-  [29.29757, 41.1149], // G6 Hüseyinli
-  [29.31553, 40.9540], // G10 Mecidiye
-  [29.32987, 40.9575], // G12 Kurnaköy
-  [29.33414, 41.1215], // G11 Kömürlük
+// High-resolution coordinates for O-6 Asian Side (From Bridge)
+export const trunkAsia: [number, number][] = [
+  [41.2024, 29.1114], // Köprü Çıkışı
+  [41.1950, 29.1500],
+  [41.1920, 29.2025], // G5 Riva Seviyesi Ana Yol
+  [41.1600, 29.2700],
+  [41.1150, 29.2975], // G6 Hüseyinli Seviyesi Ana Yol
+  [41.0800, 29.3200],
+  [41.1215, 29.3341], // G11 Kömürlük Seviyesi Ana Yol
+  [41.0600, 29.2800],
+  [41.0460, 29.2575], // G7 Reşadiye Seviyesi Ana Yol
+  [41.0385, 29.1940], // Çekmeköy Seviyesi Ana Yol
+  [41.0310, 29.2650], // G8 Alemdağ Seviyesi Ana Yol
+  [41.0235, 29.1960], // Sarıgazi Seviyesi Ana Yol
+  [41.0050, 29.2690], // G9 Paşaköy Seviyesi Ana Yol
+  [41.0520, 29.1670], // Çamlık Seviyesi Ana Yol
+  [40.9540, 29.3155], // G10 Mecidiye Seviyesi Ana Yol
+  [40.9575, 29.3300], // G12 Kurnaköy Seviyesi Ana Yol
 ];

@@ -16,6 +16,23 @@ const MapView = ({ activeRoute, peakHourMode, selectedGroup }: MapViewProps) => 
   const mapInstance = useRef<L.Map | null>(null);
   const routeLayersRef = useRef<L.LayerGroup>(L.layerGroup());
   const [selectedGate, setSelectedGate] = useState<TollGate | PassagePoint | null>(null);
+  const [mapStyle, setMapStyle] = useState<'dark' | 'light' | 'satellite'>('dark');
+  const tileLayerRef = useRef<L.TileLayer | null>(null);
+
+  const mapStyles = {
+    dark: {
+      url: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+      attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+    },
+    light: {
+      url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+      attribution: '&copy; <a href="https://carto.com/">CARTO</a>'
+    },
+    satellite: {
+      url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+      attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+    }
+  };
 
   // Initialize map
   useEffect(() => {
@@ -28,13 +45,11 @@ const MapView = ({ activeRoute, peakHourMode, selectedGroup }: MapViewProps) => 
       attributionControl: false,
     });
 
-    L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-      {
-        attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
-        maxZoom: 19,
-      }
-    ).addTo(map);
+    // Initial tile layer
+    tileLayerRef.current = L.tileLayer(mapStyles[mapStyle].url, {
+      attribution: mapStyles[mapStyle].attribution,
+      maxZoom: 19,
+    }).addTo(map);
 
     routeLayersRef.current.addTo(map);
 
@@ -97,6 +112,20 @@ const MapView = ({ activeRoute, peakHourMode, selectedGroup }: MapViewProps) => 
     };
   }, []);
 
+  // Update tile layer when style changes
+  useEffect(() => {
+    if (!mapInstance.current) return;
+
+    if (tileLayerRef.current) {
+      mapInstance.current.removeLayer(tileLayerRef.current);
+    }
+
+    tileLayerRef.current = L.tileLayer(mapStyles[mapStyle].url, {
+      attribution: mapStyles[mapStyle].attribution,
+      maxZoom: 19,
+    }).addTo(mapInstance.current);
+  }, [mapStyle]);
+
   // Draw route lines or zoom when a point is selected
   useEffect(() => {
     routeLayersRef.current.clearLayers();
@@ -104,67 +133,26 @@ const MapView = ({ activeRoute, peakHourMode, selectedGroup }: MapViewProps) => 
     if (!selectedGroup || !activeRoute) return;
 
     let selectedCoord: L.LatLngExpression | null = null;
+    let pointData: TollGate | PassagePoint | undefined = undefined;
+    let isAnkara = false;
 
     if (selectedGroup === "bariyerli") {
-      // It's a Toll Gate
-      const gate = tollGates.find(g => g.id === activeRoute);
-      if (gate) {
-        selectedCoord = [gate.lat, gate.lng];
-
-        // Just fly to the gate (no route lines needed for individual gates)
-        if (mapInstance.current) {
-          mapInstance.current.flyTo(selectedCoord, 15, { duration: 1.5 });
-        }
-        setSelectedGate(gate);
-      }
+      pointData = tollGates.find(g => g.id === activeRoute);
     } else if (selectedGroup === "serbest") {
-      // It's a Passage Point in a group
-      const point = passagePoints.find(p => p.id === activeRoute);
-      if (point) {
-        selectedCoord = [point.lat, point.lng];
+      pointData = passagePoints.find(p => p.id === activeRoute);
+      isAnkara = activeRoute.endsWith("A");
+    }
 
-        const isAnkara = activeRoute.endsWith("A");
-        const color = peakHourMode ? "#ef4444" : isAnkara ? "#00d4ff" : "#ff6b35";
-        const glowColor = peakHourMode ? "#ef444460" : isAnkara ? "#00d4ff50" : "#ff6b3550";
+    if (pointData) {
+      selectedCoord = [pointData.lat, pointData.lng];
 
-        // Find nearby toll gates sorted by distance
-        const sortedGates = [...tollGates]
-          .map(g => ({
-            ...g,
-            dist: Math.sqrt(Math.pow(g.lat - point.lat, 2) + Math.pow(g.lng - point.lng, 2)),
-          }))
-          .sort((a, b) => a.dist - b.dist)
-          .slice(0, 4);
-
-        const routeCoords: [number, number][] = [
-          [point.lat, point.lng],
-          ...sortedGates.map(g => [g.lat, g.lng] as [number, number]),
-        ];
-
-        // Glow
-        L.polyline(routeCoords, {
-          color: glowColor,
-          weight: 12,
-          opacity: 0.4,
-          lineCap: "round",
-        }).addTo(routeLayersRef.current);
-
-        // Main line
-        L.polyline(routeCoords, {
-          color,
-          weight: 4,
-          opacity: 0.9,
-          lineCap: "round",
-          dashArray: "12 8",
-          className: "route-flow-animation",
-        }).addTo(routeLayersRef.current);
-
-        // Fit bounds for passage point routes
-        if (mapInstance.current) {
-          mapInstance.current.flyTo(selectedCoord, 17, { duration: 1.5 });
-        }
-        setSelectedGate(point);
+      // Just fly to the selected point
+      if (mapInstance.current) {
+        // Zoom slightly closer for passages to see interchanges but keep overview for toll gates
+        const zoomLevel = selectedGroup === "serbest" ? 17 : 15;
+        mapInstance.current.flyTo(selectedCoord, zoomLevel, { duration: 1.5 });
       }
+      setSelectedGate(pointData);
     }
   }, [activeRoute, peakHourMode, selectedGroup]);
 
@@ -193,6 +181,31 @@ const MapView = ({ activeRoute, peakHourMode, selectedGroup }: MapViewProps) => 
           </div>
         </div>
       )}
+
+      {/* Map Style Selector */}
+      <div className="absolute top-16 left-4 z-[500] flex flex-col gap-2">
+        <button
+          onClick={() => setMapStyle('dark')}
+          className={`glass rounded-lg w-10 h-10 flex items-center justify-center transition-all ${mapStyle === 'dark' ? 'border-primary border-2 shadow-[0_0_10px_rgba(0,212,255,0.3)]' : 'hover:bg-white/10'}`}
+          title="Koyu Mod"
+        >
+          <div className="w-5 h-5 rounded-full bg-slate-800 border border-white/20" />
+        </button>
+        <button
+          onClick={() => setMapStyle('light')}
+          className={`glass rounded-lg w-10 h-10 flex items-center justify-center transition-all ${mapStyle === 'light' ? 'border-primary border-2 shadow-[0_0_10px_rgba(0,212,255,0.3)]' : 'hover:bg-white/10'}`}
+          title="Açık Mod"
+        >
+          <div className="w-5 h-5 rounded-full bg-slate-200 border border-black/10" />
+        </button>
+        <button
+          onClick={() => setMapStyle('satellite')}
+          className={`glass rounded-lg w-10 h-10 flex items-center justify-center transition-all ${mapStyle === 'satellite' ? 'border-primary border-2 shadow-[0_0_10px_rgba(0,212,255,0.3)]' : 'hover:bg-white/10'}`}
+          title="Uydu"
+        >
+          <div className="w-5 h-5 rounded-lg bg-[url('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/10/381/617')] bg-cover border border-white/20" />
+        </button>
+      </div>
 
       {/* Legend */}
       <div className="absolute bottom-4 right-4 z-[500]">
