@@ -1,0 +1,176 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 225 25% 6%;
+    --foreground: 40 20% 92%;
+
+    --card: 225 20% 10%;
+    --card-foreground: 40 20% 92%;
+
+    --popover: 225 20% 10%;
+    --popover-foreground: 40 20% 92%;
+
+    --primary: 42 78% 55%;
+    --primary-foreground: 225 25% 6%;
+
+    --secondary: 225 15% 16%;
+    --secondary-foreground: 40 20% 85%;
+
+    --muted: 225 15% 14%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent: 190 90% 50%;
+    --accent-foreground: 225 25% 6%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 225 15% 18%;
+    --input: 225 15% 18%;
+    --ring: 42 78% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 225 22% 8%;
+    --sidebar-foreground: 40 20% 85%;
+    --sidebar-primary: 42 78% 55%;
+    --sidebar-primary-foreground: 225 25% 6%;
+    --sidebar-accent: 225 15% 14%;
+    --sidebar-accent-foreground: 40 20% 85%;
+    --sidebar-border: 225 15% 15%;
+    --sidebar-ring: 42 78% 55%;
+
+    /* Custom tokens */
+    --gold: 42 78% 55%;
+    --gold-dim: 42 50% 35%;
+    --neon-cyan: 190 90% 50%;
+    --neon-green: 150 80% 50%;
+    --neon-red: 0 85% 55%;
+    --neon-orange: 30 90% 55%;
+    --glass: 225 20% 12%;
+    --glass-border: 225 15% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', 'SF Pro Display', system-ui, sans-serif;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: hsl(var(--glass) / 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsl(var(--glass-border) / 0.5);
+  }
+
+  .glass-strong {
+    background: hsl(var(--glass) / 0.85);
+    backdrop-filter: blur(30px);
+    border: 1px solid hsl(var(--glass-border) / 0.6);
+  }
+
+  .glow-gold {
+    box-shadow: 0 0 20px hsl(var(--gold) / 0.3), 0 0 60px hsl(var(--gold) / 0.1);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 15px hsl(var(--neon-cyan) / 0.4), 0 0 45px hsl(var(--neon-cyan) / 0.15);
+  }
+
+  .glow-text-gold {
+    text-shadow: 0 0 10px hsl(var(--gold) / 0.5), 0 0 30px hsl(var(--gold) / 0.2);
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .text-gold-dim {
+    color: hsl(var(--gold-dim));
+  }
+
+  .text-neon-cyan {
+    color: hsl(var(--neon-cyan));
+  }
+
+  .bg-gold {
+    background-color: hsl(var(--gold));
+  }
+
+  .border-gold {
+    border-color: hsl(var(--gold) / 0.3);
+  }
+
+  .border-glass {
+    border-color: hsl(var(--glass-border) / 0.5);
+  }
+
+  .status-active {
+    background-color: hsl(var(--neon-green));
+    box-shadow: 0 0 8px hsl(var(--neon-green) / 0.6);
+  }
+
+  .status-maintenance {
+    background-color: hsl(var(--neon-orange));
+    box-shadow: 0 0 8px hsl(var(--neon-orange) / 0.6);
+  }
+
+  .status-slow {
+    background-color: hsl(var(--neon-red));
+    box-shadow: 0 0 8px hsl(var(--neon-red) / 0.6);
+  }
+}
+
+/* Leaflet overrides for dark theme */
+.leaflet-container {
+  background: hsl(225, 25%, 4%) !important;
+}
+.leaflet-control-zoom a {
+  background: hsl(225, 20%, 12%) !important;
+  color: hsl(40, 20%, 85%) !important;
+  border-color: hsl(225, 15%, 20%) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: hsl(225, 20%, 18%) !important;
+}
+.leaflet-control-attribution {
+  background: hsl(225, 20%, 8% / 0.8) !important;
+  color: hsl(220, 10%, 40%) !important;
+  font-size: 10px !important;
+}
+.leaflet-control-attribution a {
+  color: hsl(220, 10%, 50%) !important;
+}
+
+/* Animated route dashes */
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -30;
+  }
+}
+.route-flow-animation {
+  animation: dash-flow 1s linear infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+.pulse-ring {
+  animation: pulse-ring 1.5s ease-out infinite;
+}

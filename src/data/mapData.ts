@@ -1,0 +1,355 @@
+import { TollGate, PassagePoint } from "./types";
+
+// =============================================
+// TOLL GATES (Gişeler) — from KML red markers
+// =============================================
+export const tollGates: TollGate[] = [
+  {
+    id: "G1",
+    name: "FENERTEPE G1",
+    location: "Fenertepe",
+    lat: 41.19714552184799,
+    lng: 28.82404894870147,
+    status: "active",
+    technicalId: "GS-001-FNT",
+    direction: "Çift Yön",
+    laneCount: 20,
+    region: "Avrupa Tarafı",
+    customLaneText: "10 Gidiş 10 Geliş",
+  },
+  {
+    id: "G2",
+    name: "IŞIKLAR G2",
+    location: "Işıklar",
+    lat: 41.21061495751192,
+    lng: 28.83195184042864,
+    status: "active",
+    technicalId: "GS-002-ISK",
+    direction: "Çift Yön",
+    laneCount: 7,
+    region: "Avrupa Tarafı",
+    customLaneText: "4 Gidiş 3 Geliş",
+  },
+  {
+    id: "G3",
+    name: "AĞAÇLI G3",
+    location: "Ağaçlı (Kapalı Gişe)",
+    lat: 41.24286028478742,
+    lng: 28.84692695981811,
+    status: "maintenance",
+    technicalId: "GS-003-AGL",
+    direction: "Kapalı",
+    laneCount: 4,
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "G4",
+    name: "USKUMRUKÖY G4",
+    location: "Uskumruköy",
+    lat: 41.23478978291079,
+    lng: 29.02810757015638,
+    status: "active",
+    technicalId: "GS-004-USK",
+    direction: "Çift Yön",
+    laneCount: 8,
+    region: "Avrupa Tarafı",
+    customLaneText: "4 Gidiş 4 Geliş",
+  },
+  {
+    id: "G5",
+    name: "RİVA G5",
+    location: "Riva",
+    lat: 41.19227230101011,
+    lng: 29.20257196388332,
+    status: "active",
+    technicalId: "GS-005-RVA",
+    direction: "Çift Yön",
+    laneCount: 8,
+    region: "Asya Tarafı",
+    customLaneText: "4 Gidiş 4 Geliş",
+  },
+  {
+    id: "G6",
+    name: "HÜSEYİNLİ G6",
+    location: "Hüseyinli",
+    lat: 41.11491279804852,
+    lng: 29.29756744167685,
+    status: "active",
+    technicalId: "GS-006-HSY",
+    direction: "Çift Yön",
+    laneCount: 8,
+    region: "Asya Tarafı",
+    customLaneText: "4 Gidiş 4 Geliş",
+  },
+  {
+    id: "G7",
+    name: "REŞADİYE G7",
+    location: "Reşadiye",
+    lat: 41.04586979856975,
+    lng: 29.2577135790108,
+    status: "active",
+    technicalId: "GS-007-RSD",
+    direction: "Çift Yön",
+    laneCount: 20,
+    region: "Asya Tarafı",
+    customLaneText: "10 Gidiş 10 Geliş",
+  },
+  {
+    id: "G8A",
+    name: "ALEMDAĞ G8A",
+    location: "Alemdağ (Çıkış)",
+    lat: 41.03123294980861,
+    lng: 29.26512766749765,
+    status: "active",
+    technicalId: "GS-008A-ALD",
+    direction: "Çıkış",
+    laneCount: 4,
+    region: "Asya Tarafı",
+  },
+  {
+    id: "G8B",
+    name: "ALEMDAĞ G8B",
+    location: "Alemdağ (Giriş)",
+    lat: 41.02972883935604,
+    lng: 29.26938093072247,
+    status: "active",
+    technicalId: "GS-008B-ALD",
+    direction: "Giriş",
+    laneCount: 3,
+    region: "Asya Tarafı",
+  },
+  {
+    id: "G9",
+    name: "PAŞAKÖY G9",
+    location: "Paşaköy",
+    lat: 41.00514611476049,
+    lng: 29.2688667848931,
+    status: "active",
+    technicalId: "GS-009-PSK",
+    direction: "Çift Yön",
+    laneCount: 8,
+    region: "Asya Tarafı",
+    customLaneText: "4 Gidiş 4 Geliş",
+  },
+  {
+    id: "G10",
+    name: "MECİDİYE G10",
+    location: "Mecidiye",
+    lat: 40.95401432015532,
+    lng: 29.31553405550496,
+    status: "active",
+    technicalId: "GS-010-MCD",
+    direction: "Çift Yön",
+    laneCount: 12,
+    region: "Asya Tarafı",
+    customLaneText: "4 Gidiş 8 Geliş",
+  },
+  {
+    id: "G11",
+    name: "KÖMÜRLÜK G11",
+    location: "Kömürlük",
+    lat: 41.12149015257651,
+    lng: 29.33413581585471,
+    status: "active",
+    technicalId: "GS-011-KMR",
+    direction: "Çift Yön",
+    laneCount: 6,
+    region: "Asya Tarafı",
+    customLaneText: "3 Gidiş 3 Geliş",
+  },
+  {
+    id: "G12",
+    name: "KURNAKÖY G12",
+    location: "Kurnaköy",
+    lat: 40.95752700226544,
+    lng: 29.32986530451386,
+    status: "active",
+    technicalId: "GS-012-KRN",
+    direction: "Çift Yön",
+    laneCount: 14,
+    region: "Asya Tarafı",
+    customLaneText: "6 Gidiş(Köprüye) 8 Geliş",
+  },
+  {
+    id: "G13",
+    name: "ODAYERİ G13",
+    location: "Odayeri",
+    lat: 41.23795382035672,
+    lng: 28.8210308307253,
+    status: "active",
+    technicalId: "GS-013-ODY",
+    direction: "Çift Yön",
+    laneCount: 12,
+    region: "Avrupa Tarafı",
+    customLaneText: "6 Gidiş 6 Geliş",
+  },
+];
+
+// =============================================
+// PASSAGE POINTS (Serbest Geçiş Noktaları) — from KML green markers
+// =============================================
+export const passagePoints: PassagePoint[] = [
+  {
+    id: "S1A",
+    name: "İSTOÇ S1A",
+    subtitle: "Ankara Yönü",
+    lat: 41.07074459083258,
+    lng: 28.81550644027256,
+    group: "İSTOÇ",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S1B",
+    name: "İSTOÇ S1B",
+    subtitle: "Edirne Yönü",
+    lat: 41.07128051455681,
+    lng: 28.81541332830025,
+    group: "İSTOÇ",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S2A",
+    name: "İkitelli S2A",
+    subtitle: "Tek Yön Ankara",
+    lat: 41.07916397375876,
+    lng: 28.81386147137948,
+    group: "İkitelli",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S3A",
+    name: "Başakşehir Güney S3A",
+    subtitle: "Ankara Yönü",
+    lat: 41.09599157918641,
+    lng: 28.81350590085386,
+    group: "Başakşehir",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S3B",
+    name: "Başakşehir Güney S3B",
+    subtitle: "Edirne Yönü",
+    lat: 41.09674037548546,
+    lng: 28.81317014349061,
+    group: "Başakşehir",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S4A",
+    name: "Başakşehir Kuzey S4A",
+    subtitle: "Ankara Yönü",
+    lat: 41.10728463085071,
+    lng: 28.81498447391141,
+    group: "Başakşehir",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S4B",
+    name: "Başakşehir Kuzey S4B",
+    subtitle: "Edirne Yönü",
+    lat: 41.10789602470281,
+    lng: 28.81476386943976,
+    group: "Başakşehir",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S5A",
+    name: "Fenertepe S5A",
+    subtitle: "Ankara Yönü",
+    lat: 41.12746905176625,
+    lng: 28.80782232634311,
+    group: "Fenertepe",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S5B",
+    name: "Fenertepe S5B",
+    subtitle: "Edirne Yönü",
+    lat: 41.12771887718016,
+    lng: 28.80723079704971,
+    group: "Fenertepe",
+    region: "Avrupa Tarafı",
+  },
+  {
+    id: "S6A",
+    name: "Çekmeköy S6A",
+    subtitle: "Ankara Yönü",
+    lat: 41.03858701406202,
+    lng: 29.19419797708146,
+    group: "Çekmeköy",
+    region: "Asya Tarafı",
+  },
+  {
+    id: "S6B",
+    name: "Çekmeköy S6B",
+    subtitle: "Edirne Yönü",
+    lat: 41.03811167480864,
+    lng: 29.19428916600059,
+    group: "Çekmeköy",
+    region: "Asya Tarafı",
+  },
+  {
+    id: "S7A",
+    name: "Çamlık S7A",
+    subtitle: "FSM Yönü",
+    lat: 41.05220798279614,
+    lng: 29.16717998232941,
+    group: "Çamlık",
+    region: "Asya Tarafı",
+  },
+  {
+    id: "S7B",
+    name: "Çamlık S7B",
+    subtitle: "Reşadiye Yönü",
+    lat: 41.0517480311764,
+    lng: 29.16662020994946,
+    group: "Çamlık",
+    region: "Asya Tarafı",
+  },
+  {
+    id: "S8A",
+    name: "Sarıgazi S8A",
+    subtitle: "Ankara Yönü",
+    lat: 41.02364387538599,
+    lng: 29.19615970053032,
+    group: "Sarıgazi",
+    region: "Asya Tarafı",
+  },
+  {
+    id: "S8B",
+    name: "Sarıgazi S8B",
+    subtitle: "Edirne Yönü",
+    lat: 41.02323501394801,
+    lng: 29.19633741289291,
+    group: "Sarıgazi",
+    region: "Asya Tarafı",
+  },
+];
+
+// Helper to get highway corridor coordinates (connecting all points roughly west to east)
+export const highwayCorridorWest: [number, number][] = [
+  [28.81545, 41.0710], // İSTOÇ
+  [28.81386, 41.0792], // İkitelli
+  [28.81334, 41.0964], // Başakşehir Güney
+  [28.81487, 41.1076], // Başakşehir Kuzey
+  [28.80753, 41.1276], // Fenertepe S5
+  [28.82404, 41.1971], // G1 Fenertepe
+  [28.83195, 41.2106], // G2 Işıklar
+  [28.82103, 41.2380], // G13 Odayeri
+  [28.84693, 41.2429], // G3 Ağaçlı
+];
+
+export const highwayCorridorEast: [number, number][] = [
+  [29.02811, 41.2348], // G4 Uskumruköy
+  [29.16690, 41.0520], // Çamlık S7
+  [29.19424, 41.0383], // Çekmeköy S6
+  [29.19625, 41.0234], // Sarıgazi S8
+  [29.20257, 41.1923], // G5 Riva
+  [29.25771, 41.0459], // G7 Reşadiye
+  [29.26726, 41.0305], // G8 Alemdağ
+  [29.26887, 41.0051], // G9 Paşaköy
+  [29.29757, 41.1149], // G6 Hüseyinli
+  [29.31553, 40.9540], // G10 Mecidiye
+  [29.32987, 40.9575], // G12 Kurnaköy
+  [29.33414, 41.1215], // G11 Kömürlük
+];
