@@ -265,8 +265,7 @@ const TollCalculator = () => {
     const costBreakdown = useMemo(() => {
         if (!result) return [];
         return [
-            { name: "Otoyol Ücreti", value: result.highway, color: "#f59e0b" },
-            { name: "Çevresel Etki (CO2)", value: parseFloat(result.co2Kg as string) * 10, color: "#10b981" },
+            { name: "Otoyol Ücreti", value: result.highway, color: "#f59e0b" }
         ];
     }, [result]);
 
@@ -417,11 +416,9 @@ const TollCalculator = () => {
                         <AnimatePresence mode="wait">
                             {showResult && result ? (
                                 <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
-                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <SummaryCard label="Otoyol Ücreti" value={`₺${result.highway.toLocaleString('tr-TR')}`} color="text-amber-400" icon={<Zap className="w-4 h-4" />} bold />
-                                        <SummaryCard label="Mesafe" value={`${result.distance.toFixed(1)} km`} color="text-blue-400" icon={<Ruler className="w-4 h-4" />} />
-                                        <SummaryCard label="Karbon Salınımı" value={`${result.co2Kg} kg CO2`} color="text-emerald-400" icon={<Activity className="w-4 h-4" />} />
-                                        <SummaryCard label="Süre" value={`${result.timeMinutes} dk`} color="text-sky-400" icon={<Clock className="w-4 h-4" />} />
+                                        <SummaryCard label="Mesafe" value={`${result.distance.toFixed(1)} km`} color="text-emerald-400" icon={<Ruler className="w-4 h-4" />} />
                                     </div>
 
                                     <div className="glass rounded-xl p-5 border border-glass">
@@ -437,10 +434,10 @@ const TollCalculator = () => {
                                         </ResponsiveContainer>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                    <div className="grid grid-cols-1 gap-5">
                                         <div className="glass rounded-xl p-5 border border-glass">
                                             <p className="text-xs font-bold text-foreground mb-4">Araç Sınıfları Karşılaştırması</p>
-                                            <ResponsiveContainer width="100%" height={200}>
+                                            <ResponsiveContainer width="100%" height={260}>
                                                 <BarChart data={comparisonData}>
                                                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.02)" />
                                                     <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 9 }} />
@@ -448,33 +445,6 @@ const TollCalculator = () => {
                                                     <Tooltip contentStyle={{ background: "#0f172a", border: "1px solid rgba(255,255,255,0.1)" }} />
                                                     <Bar dataKey="Ücret" fill="#3b82f6" radius={[4, 4, 0, 0]} />
                                                 </BarChart>
-                                            </ResponsiveContainer>
-                                        </div>
-
-                                        <div className="glass rounded-xl p-5 border border-glass">
-                                            <p className="text-xs font-bold text-foreground mb-4 flex items-center gap-2"><Activity className="w-4 h-4 text-emerald-400" /> Yolculuk Özet Analizi</p>
-                                            <ResponsiveContainer width="100%" height={200}>
-                                                <PieChart>
-                                                    <Pie
-                                                        data={costBreakdown}
-                                                        cx="50%"
-                                                        cy="50%"
-                                                        innerRadius={60}
-                                                        outerRadius={80}
-                                                        paddingAngle={5}
-                                                        dataKey="value"
-                                                    >
-                                                        {costBreakdown.map((entry, index) => (
-                                                            <Cell key={`cell-${index}`} fill={entry.color} />
-                                                        ))}
-                                                    </Pie>
-                                                    <Tooltip
-                                                        contentStyle={{ background: "#0f172a", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "12px" }}
-                                                        itemStyle={{ color: "#fff" }}
-                                                        formatter={(value: number, name: string) => name === "Otoyol Ücreti" ? `₺${value}` : `${(value / 10).toFixed(1)} kg CO2`}
-                                                    />
-                                                    <Legend verticalAlign="bottom" height={36} />
-                                                </PieChart>
                                             </ResponsiveContainer>
                                         </div>
                                     </div>
